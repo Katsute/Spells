@@ -2,8 +2,7 @@
 
 #pragma semicolon 1
 
-#include <sourcemod>
-#include <sdktools>
+#include <tf2_stocks>
 
 #define TFSPELL_FIREBALL            0
 #define TFSPELL_SWARM_OF_BATS       1
@@ -52,7 +51,7 @@ public Plugin myinfo = {
     name        = "Spells",
     author      = "Katsute",
     description = "Set spell probabilities",
-    version     = "1.0",
+    version     = "1.1",
     url         = "https://github.com/KatsuteTF/Spells"
 }
 
@@ -159,7 +158,7 @@ public void OnEntityCreated(int ent, const char[] classname){
 }
 
 public void OnPlayerSpellbookTouch(const char[] output, const int ent, const int client, const float delay2){
-    if(0 < client <= MaxClients){
+    if(0 < client <= MaxClients && IsClientInGame(client) && !IsFakeClient(client)){
         int sb = GetSpellbook(client);
         if(sb != -1 && GetEntProp(sb, Prop_Send,"m_iSpellCharges") == 0){
             bool rare = GetEntProp(ent, Prop_Data, "m_nTier") == 1;
